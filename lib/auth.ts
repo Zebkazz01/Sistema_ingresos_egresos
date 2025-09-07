@@ -81,13 +81,12 @@ export const auth = betterAuth({
   baseURL: getBaseUrl(),
   trustedOrigins: [
     DEVELOPMENT_URL,
+    // URL principal de producción
+    'https://app-ingresos-egresos.vercel.app',
     // URL dinámica de Vercel (siempre actual)
     process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null,
     // Variable de entorno explícita como fallback
     process.env.BETTER_AUTH_URL,
-    // URLs anteriores de Vercel (por compatibilidad)
-    'https://app-ingresos-egresos-dudxhd6vv.vercel.app',
-    'https://app-ingresos-egresos-dpwnex75n.vercel.app',
   ].filter(Boolean),
 });
 
