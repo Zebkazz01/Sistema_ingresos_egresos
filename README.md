@@ -2,8 +2,6 @@
 
 Sistema fullstack para la gestión de movimientos financieros con control de acceso basado en roles, reportes interactivos y documentación completa de API.
 
-**Estado: COMPLETADO y LISTO PARA PRODUCCIÓN**
-
 Sistema con autenticación GitHub OAuth, CRUD completo, reportes con gráficos, exportación CSV y 36 pruebas unitarias funcionando.
 
 ## Tecnologías Implementadas
