@@ -9,12 +9,19 @@ const nextConfig = {
     // Ignore type errors during build for now
     ignoreBuildErrors: true,
   },
-  experimental: {
-    // Enable static exports if needed
-    output: 'standalone',
-  },
   // Disable strict mode for now to avoid some React 18 issues
   reactStrictMode: false,
+  // Optimize for serverless functions
+  poweredByHeader: false,
+  // Ensure API routes work properly
+  async rewrites() {
+    return [
+      {
+        source: '/api/auth/:path*',
+        destination: '/api/auth/:path*',
+      },
+    ];
+  },
 }
 
 module.exports = nextConfig

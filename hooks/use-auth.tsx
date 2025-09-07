@@ -34,7 +34,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     // Escuchar eventos del storage para cambios de sesión
     const handleStorageChange = () => {
-      console.log('Validando sesión...');
+      // Validando sesión
       checkAuth();
     };
 
@@ -54,12 +54,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const checkAuth = async () => {
     try {
       const sessionData = await authClient.getSession();
-      console.log('Validando el inicio de sesión:', sessionData);
+      // Validando el inicio de sesión
       // Better Auth returns { data: {...}, error: ... } estructure
       const session = sessionData?.data;
 
       if (session?.user) {
-        console.log('Usuario validado:', session.user);
+        // Usuario validado
         setUser({
           id: session.user.id,
           name: session.user.name || '',
@@ -69,7 +69,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           emailVerified: (session.user as any).emailVerified || false,
         });
       } else {
-        console.log('No hay un usuario con la sesión activa');
+        // No hay usuario con sesión activa
         setUser(null);
       }
     } catch (error) {
@@ -85,7 +85,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       setLoading(true);
       const sessionData = await authClient.getSession();
-      console.log('Refrescando la sesión:', sessionData);
+      // Refrescando la sesión
 
       const session = sessionData?.data;
 
@@ -112,7 +112,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signIn = async (provider: string) => {
     try {
       setLoading(true);
-      console.log('Iniciando sesión con proveedor:', provider);
+      // Iniciando sesión con proveedor
 
       await authClient.signIn.social({
         provider: provider as any,

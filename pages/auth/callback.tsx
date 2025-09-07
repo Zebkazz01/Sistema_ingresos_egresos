@@ -10,7 +10,7 @@ export default function AuthCallback() {
   useEffect(() => {
     // Intentar obtener la sesión después del callback
     const handleCallback = async () => {
-      console.log('Autenticación callback...');
+      // Procesando callback de autenticación
 
       // Esperar un momento para que Better Auth procese el callback
       await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -27,10 +27,10 @@ export default function AuthCallback() {
 
   useEffect(() => {
     if (!loading && user) {
-      console.log('Usuario autenticado:', user);
+      // Usuario autenticado correctamente
       router.push('/dashboard');
     } else if (!loading && !user) {
-      console.log('No se pudo autenticar el usuario');
+      // No se pudo autenticar el usuario
       router.push('/auth/signin?error=callback_error');
     }
   }, [user, loading, router]);

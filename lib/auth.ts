@@ -1,6 +1,7 @@
 import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
 import { prisma } from './prismaClient';
+import { getBaseUrl, PRODUCTION_URL, DEVELOPMENT_URL } from './env';
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -38,7 +39,7 @@ export const auth = betterAuth({
   callbacks: {
     // nuevo usuario tenga rol ADMIN
     async signUp({ user, account }: any) {
-      console.log('Nuevo usuario registrándose:', user.email);
+      // Nuevo usuario registrándose
 
       const updatedUser = {
         ...user,
@@ -47,16 +48,16 @@ export const auth = betterAuth({
         emailVerified: true, // GitHub verificado por email
       };
 
-      console.log('Usuario creado con rol ADMIN:', updatedUser.email);
+      // Usuario creado con rol ADMIN
       return { user: updatedUser, account };
     },
 
     async signIn({ user, account, isNewUser }: any) {
-      console.log('Usuario iniciando sesión:', user.email, { isNewUser });
+      // Usuario iniciando sesión
 
       // Si es un usuario existente, mantener sus datos
       if (!isNewUser) {
-        console.log('Usuario existente:', user.email);
+        // Usuario existente
         return { user, account };
       }
       return { user, account };
@@ -77,11 +78,17 @@ export const auth = betterAuth({
     },
   },
   secret: process.env.BETTER_AUTH_SECRET,
-  baseURL: process.env.BETTER_AUTH_URL || 'http://localhost:3000',
+  baseURL: getBaseUrl(),
   trustedOrigins: [
-    'http://localhost:3000',
-    process.env.BETTER_AUTH_URL || 'http://localhost:3000',
-  ],
+    DEVELOPMENT_URL,
+    // URL dinámica de Vercel (siempre actual)
+    process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null,
+    // Variable de entorno explícita como fallback
+    process.env.BETTER_AUTH_URL,
+    // URLs anteriores de Vercel (por compatibilidad)
+    'https://app-ingresos-egresos-dudxhd6vv.vercel.app',
+    'https://app-ingresos-egresos-dpwnex75n.vercel.app',
+  ].filter(Boolean),
 });
 
 export type Session = {

@@ -1,4 +1,5 @@
 import { auth } from '../../../lib/auth';
+import { PRODUCTION_URL, DEVELOPMENT_URL } from '../../../lib/env';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
@@ -7,8 +8,16 @@ export default async function handler(
 ) {
   try {
     // Construir la URL completa
-    const protocol = req.headers['x-forwarded-proto'] || 'http';
-    const host = req.headers.host || 'localhost:3000';
+    const protocol = req.headers['x-forwarded-proto'] || (process.env.NODE_ENV === 'production' ? 'https' : 'http');
+    
+    // Detectar host automáticamente
+    let host = req.headers.host;
+    if (!host && process.env.NODE_ENV === 'production') {
+      // En Vercel, usar la variable VERCEL_URL si está disponible
+      host = process.env.VERCEL_URL || 'prueba-fullstack-deploy-hph4emv1x.vercel.app';
+    } else if (!host) {
+      host = 'localhost:3000';
+    }
     const url = `${protocol}://${host}${req.url}`;
 
     // Crear el Request object para Better Auth
