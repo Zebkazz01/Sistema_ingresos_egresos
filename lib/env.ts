@@ -2,18 +2,17 @@
 export const getBaseUrl = () => {
   // En el servidor, usar la variable de entorno o detectar automáticamente
   if (typeof window === 'undefined') {
-    // En producción (Vercel), usar las variables automáticas
+    // En producción, priorizar la URL personalizada
     if (process.env.NODE_ENV === 'production') {
-      // Vercel proporciona estas variables automáticamente
-      // VERCEL_URL siempre contiene la URL actual del deployment
+      // Primero intentar variable de entorno explícita (URL personalizada)
+      if (process.env.BETTER_AUTH_URL) {
+        return process.env.BETTER_AUTH_URL;
+      }
+      
+      // Como fallback, usar la URL dinámica de Vercel
       const vercelUrl = process.env.VERCEL_URL;
       if (vercelUrl) {
         return `https://${vercelUrl}`;
-      }
-      
-      // Como fallback, intentar variable de entorno explícita
-      if (process.env.BETTER_AUTH_URL) {
-        return process.env.BETTER_AUTH_URL;
       }
     }
     
